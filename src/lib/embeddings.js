@@ -1,5 +1,7 @@
 import { createParser } from 'eventsource-parser';
 import { supabase } from './supabase';
+import { logError } from './logger';
+
 
 const OPENAI_EMBEDDINGS_URL = 'https://api.openai.com/v1/embeddings';
 const OPENAI_CHAT_URL = 'https://api.openai.com/v1/chat/completions';

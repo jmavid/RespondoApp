@@ -1,5 +1,6 @@
 import { createParser } from 'eventsource-parser';
 import { getDocumentContext } from './embeddings';
+import { logError } from './logger';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 const RETRY_DELAY = 1000;

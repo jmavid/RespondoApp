@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Mail, Lock, ToggleLeft as Google } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../src/lib/supabase';
 
 export function Auth() {
   const { t } = useTranslation();
@@ -10,7 +10,6 @@ export function Auth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false); // Nuevo estado para la casilla de verificación
 
   const handleEmailAuth = async (e) => {
     e.preventDefault();
@@ -119,6 +118,7 @@ export function Auth() {
               onChange={(e) => setEmail(e.target.value)}
               className="pl-10 w-full rounded-md border border-gray-300 px-3 py-2"
               required
+              // Corregido: autocomplete -> autoComplete
               autoComplete="username"
             />
           </div>
@@ -136,37 +136,15 @@ export function Auth() {
               onChange={(e) => setPassword(e.target.value)}
               className="pl-10 w-full rounded-md border border-gray-300 px-3 py-2"
               required
+              // Corregido: autocomplete -> autoComplete
               autoComplete={isSignUp ? 'new-password' : 'current-password'}
             />
           </div>
         </div>
 
-        {/* Nueva casilla de verificación */}
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="terms"
-            checked={termsAccepted}
-            onChange={(e) => setTermsAccepted(e.target.checked)}
-            className="mr-2"
-            required
-          />
-          <label htmlFor="terms" className="text-sm text-gray-700">
-            {t('auth.acceptTerms')}{' '}
-            <a href="/terms" className="text-blue-600 hover:underline">
-              {t('auth.termsOfService')}
-            </a>{' '}
-            {t('common.and')}{' '}
-            <a href="/privacy" className="text-blue-600 hover:underline">
-              {t('auth.privacyPolicy')}
-            </a>
-            , {t('auth.cookiePolicy')}.
-          </label>
-        </div>
-
         <button
           type="submit"
-          disabled={loading || !termsAccepted} // Deshabilitar si no se aceptan los términos
+          disabled={loading}
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
         >
           {loading ? 'Loading...' : isSignUp ? t('auth.signup') : t('auth.signin')}
